@@ -69,10 +69,34 @@
     self.waveWidth  = CGRectGetWidth(self.bounds);
     self.waveMid    = self.waveWidth / 2.0f;
     self.maxAmplitude = self.waveHeight - 4.0f;
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
+}
+
+-(void)onApplicationDidEnterBackground:(NSNotification *)noti{
+    [_displaylink invalidate];
+    _displaylink = nil;
+}
+
+-(void)onApplicationDidBecomeActive:(NSNotification *)noti{
+    _displaylink = [CADisplayLink displayLinkWithTarget:self selector:@selector(invokeWaveCallback)];
+    [_displaylink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    
+}
+
+-(void)stopDisplay{
+    [_displaylink invalidate];
 }
 
 - (void)setWaverLevelCallback:(void (^)(Waver * waver))waverLevelCallback {
     _waverLevelCallback = waverLevelCallback;
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, _displaylink);
+    if(_displaylink){
+        return;
+    }
     
     _displaylink = [CADisplayLink displayLinkWithTarget:self selector:@selector(invokeWaveCallback)];
     [_displaylink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
@@ -156,6 +180,7 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_displaylink invalidate];
 }
 

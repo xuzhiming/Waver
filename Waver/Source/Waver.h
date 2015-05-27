@@ -39,4 +39,7 @@
 
 @property (nonatomic, readonly) NSMutableArray * waves;
 
+
+-(void)stopDisplay;
+
 @end
