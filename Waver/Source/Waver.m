@@ -78,12 +78,14 @@
 
 -(void)onApplicationDidEnterBackground:(NSNotification *)noti{
     [_displaylink invalidate];
-    _displaylink = nil;
+//    _displaylink = nil;
 }
 
 -(void)onApplicationDidBecomeActive:(NSNotification *)noti{
-    _displaylink = [CADisplayLink displayLinkWithTarget:self selector:@selector(invokeWaveCallback)];
-    [_displaylink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    if (_displaylink) {
+        _displaylink = [CADisplayLink displayLinkWithTarget:self selector:@selector(invokeWaveCallback)];
+        [_displaylink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    }
     
 }
 
@@ -120,7 +122,9 @@
 }
 
 -(void)invokeWaveCallback {
-    _waverLevelCallback(self);
+    if (_waverLevelCallback) {
+        _waverLevelCallback(self);
+    }
 }
 
 - (void)setLevel:(CGFloat)level
