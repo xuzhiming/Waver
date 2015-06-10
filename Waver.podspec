@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/xuzhiming/Waver"
-  s.screenshots  = "https://dl.dropboxusercontent.com/u/1599662/waver/waver.png"
+#  s.screenshots  = "https://dl.dropboxusercontent.com/u/1599662/waver/waver.png"
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
