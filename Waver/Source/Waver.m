@@ -95,7 +95,7 @@
 
 - (void)setWaverLevelCallback:(void (^)(Waver * waver))waverLevelCallback {
     _waverLevelCallback = waverLevelCallback;
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, _displaylink);
+//    NSLog(@"%s, %@", __PRETTY_FUNCTION__, _displaylink);
     if(_displaylink){
         return;
     }
